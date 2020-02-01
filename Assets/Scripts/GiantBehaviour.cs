@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GiantBehaviour : MonoBehaviour
 {
-    public WallBehaviour wall;
+    public Wall wall;
 
     public StrikeBehaviour strikePrefab;
     public FistBehaviour fist;

@@ -1,0 +1,30 @@
+﻿Brainstorm
+==========
+
+Player Controller
+- Player has a bunch of limb Scanner colliders positioned at the player's corners. 
+	These collides with Hole colliders and prevent the player from moving through holes
+	- Hole colliders are small cylindrical colliders that project out from each brick absess and controlled by the WallController
+- If the player dashes/jumps, The limb colliders are disabled temporarily until the player has finished dashing
+- How the player dashes:
+	1. Kinematically move the player O
+- How the player moves:
+	Controls:
+	- A button
+	On the wall:
+	- Move kinematically
+	On the ground:
+	- Move kinematically
+
+- Brick throwing:
+	Controls:
+	- X button near a brick grabs it
+	- X hold to charge + Left thumb stick to aim
+	- Releaes X to throw
+
+- Catches the brick:
+	
+- Repairing the wall
+
+
+
