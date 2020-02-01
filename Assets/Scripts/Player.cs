@@ -1,90 +1,116 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
+﻿using UnityEngine;
 
 namespace ProjectFelix
 {
 	public class Player : MonoBehaviour
 	{
-		//Inspector
-		[SerializeField] float speed = 5f;
-		[SerializeField] float dashSpeed = 10f;
+		///Inspector
+		[Header("Move")]
+		[SerializeField] float maxSpeed = 5f;
 		[SerializeField] float smoothing = 0.5f;
 
-		//Members
-		PlayerInput input;
+		[Header("Dash")]
+		[SerializeField] float dashMaxSpeed = 10f;
+		[SerializeField] float dashDrag = 1.5f;
+		[SerializeField] float gravity = 3.5f;
+		[SerializeField] float jumpSpeed = 23.5f;
 
+		[Header("Tossing")]
+		[SerializeField] float tossMaxForce = 40f;
+		[SerializeField] float tossMaxAngle = 45f;
 
-		Vector3 desPos;
-		Vector3 pos;
-		Vector2 desAim;
+		//Public accessible
+		[HideInInspector] public Vector3 currentMoveVector = Vector3.zero;
+		[HideInInspector] public bool isClimbing;// { get; private set; }
 
-		InputAction movement;
-		InputAction use;
-		InputAction dash;
-		InputAction toss;
+		///Members
+		BrickDetector bd = null;
+		CharacterController cc = null;
+		PlayerInputActions input;
+		float currentDashSpeed;
+		Vector3 verticalMotion;
+		bool isDashing = false;
+		bool isFalling = false;
+		bool prevDash = false;
+		bool dash = false;
+		bool dashed = false;
 
 		void Awake()
 		{
-			input = GetComponent<PlayerInput>();
+			bd = GetComponentInChildren<BrickDetector>();
+			cc = GetComponent<CharacterController>();
+			cc.enableOverlapRecovery = true;	//Maybe?
+			input = new PlayerInputActions();
 		}
 
-		void Start()
-		{
-			//Set initial position
-			desPos = transform.position;
-		}
-
-		void OnEnable()
-		{
-			movement = input.actions.FindAction("Move");
-			use = input.actions.FindAction("Use");
-			dash = input.actions.FindAction("Dash");
-			toss = input.actions.FindAction("Toss");
-		}
-
-		void OnDisable()
-		{
-			movement = null; use = null; dash = null; toss = null;
-		}
-
+		//Core
+		void OnEnable() => input.Gameplay.Enable();
+		void OnDisable() => input.Gameplay.Disable();
 		void Update()
 		{
-			HandleMove();
+			CheckIfClimbing();
+			Move();
+		}
+		void LateUpdate() => FinalMove();
+
+		void CheckIfClimbing()
+		{
+			if (!cc.isGrounded)
+				isClimbing = bd.isColliding;
+			else
+				isClimbing = false;
 		}
 
-		void LateUpdate()
+		/// <summary>
+		/// Climb, dash/jump, fall
+		/// </summary>
+		void Move()
 		{
-			FinalMove();
-		}
+			var speedTotal = maxSpeed;
+			dash = input.Gameplay.Dash.triggered;
 
-		void HandleMove()
-		{
-			var m = movement.ReadValue<Vector2>();
+			//Calculate dash boost
+			if (isDashing)
+			{
+				//Apply dash drag
+				currentDashSpeed -= dashDrag;
+
+				//Reset dash if speed is too slow
+				if (currentDashSpeed < 0)
+				{
+					isDashing = false;
+					currentDashSpeed = 0;
+				}
+			}
+			if (dash && isDashing == false)
+			{
+				isDashing = true;
+				currentDashSpeed = dashMaxSpeed;
+			}
+			speedTotal += currentDashSpeed;
+
+			//you're falling if you're not grounded or climbing
+			isFalling = !(cc.isGrounded || isClimbing);
+
+			//Apply gravity if you're falling
+			verticalMotion.y = isFalling ? verticalMotion.y - gravity : 0;
 
 			//Movement
-			desPos += new Vector3(m.x, m.y, 0) * Time.deltaTime * speed;
-			pos = Vector3.Lerp(pos, desPos, smoothing);
+			var m = input.Gameplay.Move.ReadValue<Vector2>();
+			Vector3 destMoveVector = new Vector3(m.x * speedTotal, m.y * speedTotal + verticalMotion.y, 0);
 
+			//Final
+			currentMoveVector = Vector3.Lerp(currentMoveVector, destMoveVector, smoothing);
 		}
 
-		void FinalMove()
+		void FinalMove() => cc.Move(currentMoveVector * Time.deltaTime);
+
+		void OnGUI()
 		{
-			transform.position = pos;
+			if (isClimbing) GUILayout.Label("Climbing...");
+			if (isDashing) GUILayout.Label("Dashing...");
+			if (isFalling) GUILayout.Label("Falling...");
+			if (cc.isGrounded) GUILayout.Label("Grounded...");
 		}
 	}
 }
-
-
-//void tReadInput()
-//{
-//	inMovement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-//	inUse = Input.GetKey(useKey);
-//	inDash = Input.GetKey(dashKey);
-//	inThrow = Input.GetKey(throwKey);
-//}
-//void OnMove(CallbackContext context) => inMovement = context.ReadValue<Vector2>();
-//void OnUse(CallbackContext context) => context.ReadValue<bool>();
-//void OnDash(CallbackContext context) => context.ReadValue<bool>();
-//void OnThrow(CallbackContext context) => context.ReadValue<bool>();

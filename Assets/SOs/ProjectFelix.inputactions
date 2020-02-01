@@ -35,7 +35,7 @@
                     "id": "15e117c4-aa20-4260-9636-e84a39b687e7",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "Toss",
@@ -142,6 +142,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "Use",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e735419-3719-4858-91b3-9035de587276",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false

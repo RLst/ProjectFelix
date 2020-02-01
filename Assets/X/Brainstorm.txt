@@ -26,5 +26,8 @@ Player Controller
 	
 - Repairing the wall
 
+- if grounded
+	verticalmotion = 0;
+	
 
 
