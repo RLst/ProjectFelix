@@ -19,12 +19,12 @@ public class Brick : MonoBehaviour
 
 	public bool removed { get; private set; } = false;
 
-	Rigidbody rb;
+	internal new Rigidbody rigidbody;
 
 	private void Awake()
 	{
-		rb = GetComponent<Rigidbody>();
-		rb.isKinematic = true;
+		rigidbody = GetComponent<Rigidbody>();
+		rigidbody.isKinematic = true;
 	}
 
 	public void removeBrick()
@@ -33,9 +33,9 @@ public class Brick : MonoBehaviour
 	}
 	public void removeBrick(Vector3 fistPos, float fistSize)
 	{
-		rb.isKinematic = false;
+		rigidbody.isKinematic = false;
 
-		rb.AddExplosionForce(10 * rb.mass, fistPos, fistSize + 0.5f, 0, ForceMode.Impulse);
+		rigidbody.AddExplosionForce(10 * rigidbody.mass, fistPos, fistSize + 0.5f, 0, ForceMode.Impulse);
 		//rigidbody.AddForce(new Vector3(0, 0, -15*rigidbody.mass), ForceMode.Impulse);
 		removed = true;
 
