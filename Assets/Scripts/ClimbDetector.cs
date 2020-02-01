@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectFelix
 {
-	public class BrickDetector : MonoBehaviour
+	public class ClimbDetector : MonoBehaviour
 	{
 		//Properties
-		public bool isColliding;// { get; private set; }
+		[HideInInspector] public bool isClimbing;// { get; private set; }
 
 		//Members
 		Collider col = null;
@@ -21,7 +19,7 @@ namespace ProjectFelix
 		void OnTriggerStay(Collider col)
 		{
 			var hit = col.GetComponent<Brick>();
-			isColliding = (hit) ? true : false;
+			isClimbing = (hit) ? true : false;
 		}
 	}
 }

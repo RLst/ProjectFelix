@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 807996570}
+  - component: {fileID: 807996571}
   m_Layer: 0
   m_Name: PlayerInputManager
   m_TagString: Untagged
@@ -228,6 +229,49 @@ Transform:
   m_Father: {fileID: 814095102}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &807996571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807996569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: -1
+  m_AllowJoining: 1
+  m_JoinBehavior: 0
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 0}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &814095101
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,7 +579,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1053748854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6927f95acf6cf74ab11d2b096b5ad9b, type: 3}
+  m_Script: {fileID: 11500000, guid: e0c6721b68ee82244afd693a11083300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
@@ -543,9 +587,7 @@ MonoBehaviour:
   dashMaxSpeed: 20
   dashDrag: 1.5
   gravity: 0.5
-  jumpSpeed: 23.5
-  tossMaxForce: 40
-  tossMaxAngle: 45
+  currentMoveVector: {x: 0, y: 0, z: 0}
   isClimbing: 0
 --- !u!143 &1053748858
 CharacterController:
@@ -686,7 +728,7 @@ GameObject:
   - component: {fileID: 1428928143}
   - component: {fileID: 1428928141}
   m_Layer: 0
-  m_Name: BrickDetector
+  m_Name: ClimbDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,10 +770,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1428928139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5480d4636d8d8499287c33a147a1d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 724f6aec47680c746a1d45c3bcbdd4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isColliding: 0
+  isClimbing: 0
 --- !u!1 &1429497110
 GameObject:
   m_ObjectHideFlags: 0

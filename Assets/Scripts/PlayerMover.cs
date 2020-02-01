@@ -2,7 +2,7 @@
 
 namespace ProjectFelix
 {
-	public class Player : MonoBehaviour
+	public class PlayerMover : MonoBehaviour
 	{
 		///Inspector
 		[Header("Move")]
@@ -12,19 +12,14 @@ namespace ProjectFelix
 		[Header("Dash")]
 		[SerializeField] float dashMaxSpeed = 10f;
 		[SerializeField] float dashDrag = 1.5f;
-		[SerializeField] float gravity = 3.5f;
-		[SerializeField] float jumpSpeed = 23.5f;
-
-		[Header("Tossing")]
-		[SerializeField] float tossMaxForce = 40f;
-		[SerializeField] float tossMaxAngle = 45f;
+		[SerializeField] float gravity = 0.5f;
 
 		//Public accessible
 		[HideInInspector] public Vector3 currentMoveVector = Vector3.zero;
 		[HideInInspector] public bool isClimbing;// { get; private set; }
 
 		///Members
-		BrickDetector bd = null;
+		ClimbDetector bd = null;
 		CharacterController cc = null;
 		PlayerInputActions input;
 		float currentDashSpeed;
@@ -37,7 +32,7 @@ namespace ProjectFelix
 
 		void Awake()
 		{
-			bd = GetComponentInChildren<BrickDetector>();
+			bd = GetComponentInChildren<ClimbDetector>();
 			cc = GetComponent<CharacterController>();
 			cc.enableOverlapRecovery = true;	//Maybe?
 			input = new PlayerInputActions();
@@ -56,7 +51,7 @@ namespace ProjectFelix
 		void CheckIfClimbing()
 		{
 			if (!cc.isGrounded)
-				isClimbing = bd.isColliding;
+				isClimbing = bd.isClimbing;
 			else
 				isClimbing = false;
 		}
