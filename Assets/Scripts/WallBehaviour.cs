@@ -10,11 +10,11 @@ public class WallBehaviour : MonoBehaviour
     
     [SerializeField]float nBricks = 0;
 
-    float brickWidth = 1;
-    float brickHeight = 0.4f;
+    public float brickWidth = 1;
+    public float brickHeight = 0.4f;
 
-    int nBricksTall = 20;
-    int nBricksWide = 18;
+    public int nBricksTall = 20;
+    public int nBricksWide = 18;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +24,11 @@ public class WallBehaviour : MonoBehaviour
 
         //getBrickAtPos(new Vector2(-1f, 5f)).removeBrick();
 
-        Vector3 fistPos = new Vector3(-1f, 3f, -1);
-        float fistRad = 1f;
-        foreach(BrickBehaviour brick in getBricksInRadius(fistPos, fistRad)) {
-            brick.removeBrick(fistPos, fistRad);
-        }
+        //Vector3 fistPos = new Vector3(-1f, 3f, 1);
+        //float fistRad = 1f;
+        //foreach(BrickBehaviour brick in getBricksInRadius(fistPos, fistRad)) {
+            //brick.removeBrick(fistPos, fistRad);
+        //}
     }
 
     void generateWall() {
@@ -83,12 +83,18 @@ public class WallBehaviour : MonoBehaviour
         int i = (int)Mathf.Round((pos[1]/brickHeight) - 0.5f);
         int j = (int)(Mathf.Round((pos[0]/brickWidth) - 0.5f) + Mathf.Floor(nBricksWide/2));
         if (i%2 == 1) {
-            j = (int)(Mathf.Round((pos[0]/brickWidth + brickWidth/2) - 0.5f) + Mathf.Floor(nBricksWide/2));
+            j = (int)(Mathf.Round((pos[0]/brickWidth - brickWidth/2) - 0.5f) + Mathf.Floor(nBricksWide/2));
         }
 
         if (i >= 0 && i < nBricksTall && j >= 0 && j < nBricksWide) {
-            print(j + " : " + i);
-            return brickPositions[j,i];
+            //print(j + " : " + i);
+            BrickBehaviour brick = brickPositions[j,i];
+
+            //if (brick != null) {
+            //    brick.removeBrick();
+            //}
+
+            return brick;
         } else {
             return null;
         }

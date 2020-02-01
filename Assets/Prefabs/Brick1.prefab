@@ -48,8 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallPos: {x: 0, y: 0}
   wall: {fileID: 0}
-  inWallMaterial: {fileID: 2227167740999224392, guid: b94fee1ef7465bd44852328d4b249811,
-    type: 3}
+  inWallMaterial: {fileID: 2100000, guid: a75f975127afd5049bf21e69d69a2b5d, type: 2}
   outWallMaterial: {fileID: 2100000, guid: 816489e06ce402d4d8c4e93a20204cad, type: 2}
 --- !u!65 &7099761038897493466
 BoxCollider:
@@ -162,6 +161,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.02
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: b94fee1ef7465bd44852328d4b249811,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a75f975127afd5049bf21e69d69a2b5d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b94fee1ef7465bd44852328d4b249811, type: 3}
 --- !u!4 &1598033151574841409 stripped

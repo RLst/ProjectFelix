@@ -25,7 +25,7 @@ public class BrickBehaviour : MonoBehaviour
     public void removeBrick(Vector3 fistPos, float fistSize) {
         rigidbody.isKinematic = false;
         
-        rigidbody.AddExplosionForce(-25*rigidbody.mass, fistPos, fistSize + 1, 0, ForceMode.Impulse);
+        rigidbody.AddExplosionForce(10*rigidbody.mass, fistPos, fistSize + 0.5f, 0, ForceMode.Impulse);
         //rigidbody.AddForce(new Vector3(0, 0, -15*rigidbody.mass), ForceMode.Impulse);
         removed = true;
         
