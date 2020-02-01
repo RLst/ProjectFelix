@@ -29,7 +29,7 @@ public class BrickBehaviour : MonoBehaviour
         //rigidbody.AddForce(new Vector3(0, 0, -15*rigidbody.mass), ForceMode.Impulse);
         removed = true;
         
-        wall.brickPositions[(int)wallPos[0],(int)wallPos[1]] = null;
+        wall.removeBrick(new Vector2((int)wallPos[0], (int)wallPos[1]));
 
         GetComponentInChildren<MeshRenderer>().material = outWallMaterial;
     }

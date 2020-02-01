@@ -8,6 +8,8 @@ public class WallBehaviour : MonoBehaviour
 
     public BrickBehaviour[,] brickPositions;
     
+    [SerializeField]float nBricks = 0;
+
     float brickWidth = 1;
     float brickHeight = 0.4f;
 
@@ -71,6 +73,8 @@ public class WallBehaviour : MonoBehaviour
             brick.transform.Rotate(new Vector3(180, 0, 0));
         }
 
+        nBricks = nBricks + 1;
+
         return brick;
     }
 
@@ -104,6 +108,11 @@ public class WallBehaviour : MonoBehaviour
             }
         }
         return bricks;
+    }
+
+    public void removeBrick(Vector2 brickCoords) {
+        brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = null;
+        nBricks = nBricks - 1;
     }
 
     // Update is called once per frame
