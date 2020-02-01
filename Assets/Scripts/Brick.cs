@@ -14,6 +14,10 @@ public class Brick : MonoBehaviour
     public Material inWallMaterial;
     public Material outWallMaterial;
 
+    public Transform brickModel;
+
+    public int rocky; //Int value between 0 and 2 inclusive, 0 least rocky 2 is most
+
     private bool removed = false;
 
     private void Awake()
@@ -40,8 +44,10 @@ public class Brick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (removed) {
-            
+        if (rocky == 1) {
+            brickModel.localPosition = new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), 0);
+        } else if (rocky == 2) {
+            brickModel.localPosition = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
         }
     }
 

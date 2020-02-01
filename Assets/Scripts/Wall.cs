@@ -54,7 +54,12 @@ public class Wall : MonoBehaviour
                 if (rotateEdges && (j == 0 || j == nBricksInLayer - 1)) {
                     //angle = Quaternion.Euler(0, 90, 0);
                 }
-                spawnBrick(new Vector2(xPos, yPos), new Vector2(j, i));
+
+                if (i >= 0 && i < nBricksTall && j >= 0 && j < nBricksWide) {
+                    spawnBrick(new Vector2(xPos, yPos), new Vector2(j, i));
+                } else {
+                    spawnBorder(new Vector2(xPos, yPos));
+                }
             }
         }
     }
@@ -88,6 +93,10 @@ public class Wall : MonoBehaviour
         nBricks = nBricks + 1;
 
         return brick;
+    }
+
+    public void spawnBorder(Vector2 pos) {
+        Collider brickCollider = Instantiate(brickColliderPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
     }
 
     public Brick getBrickAtPos(Vector2 pos) {

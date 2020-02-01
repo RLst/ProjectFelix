@@ -33,12 +33,12 @@ public class StrikeBehaviour : MonoBehaviour
 
     void strike() {
         Vector3 fistPos = new Vector3(transform.position[0], transform.position[1], 1);
-        float fistRad = 1f;
+        float strikeRad = 1f;
 
         foreach(Brick brick in parentBehaviour.wall.getBricksInRadius(transform.position, 1)) {
-            brick.removeBrick(fistPos, fistRad);
+            brick.removeBrick(fistPos, strikeRad);
         };
 
-        parentBehaviour.fist.strike(fistPos + new Vector3(0, 0, 0.6f));
+        parentBehaviour.fist.strike(fistPos + new Vector3(0, 0, 1f));
     }
 }

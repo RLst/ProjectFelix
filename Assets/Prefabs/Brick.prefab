@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPos: {x: 0, y: 0}
-  wall: {fileID: 0}
   cloudParticlePrefab: {fileID: 2889832013303043742, guid: fe2c93cb3a8743b459469fd73e06a2be,
     type: 3}
   inWallMaterial: {fileID: 2100000, guid: a75f975127afd5049bf21e69d69a2b5d, type: 2}
   outWallMaterial: {fileID: 2100000, guid: 816489e06ce402d4d8c4e93a20204cad, type: 2}
+  brickModel: {fileID: 1598033151574841409}
 --- !u!65 &7099761038897493466
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88,6 +88,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 153294592872964836}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: b94fee1ef7465bd44852328d4b249811,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Brick1
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b94fee1ef7465bd44852328d4b249811,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -157,11 +162,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1.02
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: b94fee1ef7465bd44852328d4b249811,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_Brick1
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: b94fee1ef7465bd44852328d4b249811,
         type: 3}
