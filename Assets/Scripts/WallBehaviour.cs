@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class WallBehaviour : MonoBehaviour
 {
-    public BrickBehaviour brickPrefab;
+    public BrickBehaviour[] brickPrefabs;
 
-    private BrickBehaviour[,] brickPositions;
+    public BrickBehaviour[,] brickPositions;
     
     float brickWidth = 1;
     float brickHeight = 0.4f;
 
-    int nBricksTall = 15;
-    int nBricksWide = 10;
+    int nBricksTall = 20;
+    int nBricksWide = 18;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +20,13 @@ public class WallBehaviour : MonoBehaviour
         
         generateWall();
 
-        getBrickAtPos(new Vector2(-1f, 0.6f));
+        //getBrickAtPos(new Vector2(-1f, 5f)).removeBrick();
+
+        Vector3 fistPos = new Vector3(-1f, 3f, -1);
+        float fistRad = 1f;
+        foreach(BrickBehaviour brick in getBricksInRadius(fistPos, fistRad)) {
+            brick.removeBrick(fistPos, fistRad);
+        }
     }
 
     void generateWall() {
@@ -42,11 +48,30 @@ public class WallBehaviour : MonoBehaviour
                 if (rotateEdges && (j == 0 || j == nBricksInLayer - 1)) {
                     //angle = Quaternion.Euler(0, 90, 0);
                 }
-                BrickBehaviour brick = Instantiate(brickPrefab, new Vector3(transform.position[0] + xPos, transform.position[1] + yPos, transform.position[2]), angle, transform);
-
-                brickPositions[j,i] = brick;
+                spawnBrick(new Vector2(xPos, yPos), new Vector2(j, i));
             }
         }
+    }
+
+    public BrickBehaviour spawnBrick(Vector2 pos, Vector2 arrayCoords) {
+        int prefabN = Random.Range(0, 3);
+        BrickBehaviour brick = Instantiate(brickPrefabs[prefabN], new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
+        brick.wallPos = arrayCoords;
+        brick.wall = this;
+
+        brickPositions[(int)arrayCoords[0],(int)arrayCoords[1]] = brick;
+
+        if (Random.Range(0, 2) == 0) {
+            brick.transform.Rotate(new Vector3(0, 0, 180));
+        }
+        if (Random.Range(0, 2) == 0) {
+            brick.transform.Rotate(new Vector3(0, 180, 0));
+        }
+        if (Random.Range(0, 2) == 0) {
+            brick.transform.Rotate(new Vector3(180, 0, 0));
+        }
+
+        return brick;
     }
 
     public BrickBehaviour getBrickAtPos(Vector2 pos) {
@@ -57,14 +82,30 @@ public class WallBehaviour : MonoBehaviour
             j = (int)(Mathf.Round((pos[0]/brickWidth + brickWidth/2) - 0.5f) + Mathf.Floor(nBricksWide/2));
         }
 
-        print(j + " : " + i);
-        if (i > 0 && i < nBricksTall && j > 0 && j < nBricksTall) {
+        if (i >= 0 && i < nBricksTall && j >= 0 && j < nBricksWide) {
+            print(j + " : " + i);
             return brickPositions[j,i];
         } else {
             return null;
         }
     }
     
+    public List<BrickBehaviour> getBricksInRadius(Vector2 pos, float radius) {
+        List<BrickBehaviour> bricks = new List<BrickBehaviour>();
+        for (int j = 0; j < nBricksWide; j++) {
+            for (int i = 0; i < nBricksTall; i++) {
+                BrickBehaviour brick = brickPositions[j,i];
+                if (brick != null) {
+                    Vector2 diff = (Vector2)brick.transform.position - pos;
+                    if (diff.magnitude <= radius) {
+                        bricks.Add(brick);
+                    }
+                }
+            }
+        }
+        return bricks;
+    }
+
     // Update is called once per frame
     void Update()
     {
