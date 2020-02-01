@@ -13,12 +13,6 @@ public class StrikeBehaviour : MonoBehaviour
         parentBehaviour = transform.parent.GetComponent<GiantBehaviour>();
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (timer > 0) {

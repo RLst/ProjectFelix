@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1717581973089997893}
   - component: {fileID: 7099761038897493466}
   - component: {fileID: -4289797316115889075}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Brick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,6 +52,7 @@ MonoBehaviour:
   inWallMaterial: {fileID: 2100000, guid: a75f975127afd5049bf21e69d69a2b5d, type: 2}
   outWallMaterial: {fileID: 2100000, guid: 816489e06ce402d4d8c4e93a20204cad, type: 2}
   brickModel: {fileID: 1598033151574841409}
+  rocky: 0
 --- !u!65 &7099761038897493466
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92,6 +93,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Brick1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b94fee1ef7465bd44852328d4b249811,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b94fee1ef7465bd44852328d4b249811,
         type: 3}

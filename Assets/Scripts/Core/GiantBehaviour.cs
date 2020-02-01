@@ -49,7 +49,7 @@ public class GiantBehaviour : MonoBehaviour
             } else {
                 float newRotate = parentangle - Time.deltaTime*rotateSpeed;
 
-                print(newRotate + " : " + targetRotate);
+                //print(newRotate + " : " + targetRotate);
                 if (newRotate < targetRotate) {
                     newRotate = targetRotate;
                 }
@@ -64,7 +64,7 @@ public class GiantBehaviour : MonoBehaviour
             Vector2 pos = new Vector2(wall.transform.position[0] + Random.Range(-wall.nBricksWide*wall.brickWidth/2 + 2, wall.nBricksWide*wall.brickWidth/2 - 2), wall.transform.position[1] + Random.Range(2, wall.nBricksWide*wall.brickHeight));
 
             targetRotate = -45*(pos[0]/(wall.nBricksWide*wall.brickWidth/2));
-            print(targetRotate);
+            //print(targetRotate);
 
             if (wall.getBrickAtPos(pos) != null) {
                 posFound = true;

@@ -150,10 +150,4 @@ public class Wall : MonoBehaviour
             brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = false;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -16,7 +16,7 @@ namespace ProjectFelix
 
 		//Public accessible
 		[HideInInspector] public Vector3 currentMoveVector = Vector3.zero;
-		[HideInInspector] public bool isClimbing;// { get; private set; }
+		public bool isClimbing;// { get; private set; }
 
 		///Members
 		ClimbDetector bd = null;
@@ -24,11 +24,8 @@ namespace ProjectFelix
 		PlayerInputActions input;
 		float currentDashSpeed;
 		Vector3 verticalMotion;
-		bool isDashing = false;
-		bool isFalling = false;
-		bool prevDash = false;
-		bool dash = false;
-		bool dashed = false;
+		public bool isDashing = false;
+		public bool isFalling = false;
 
 		void Awake()
 		{
@@ -44,25 +41,19 @@ namespace ProjectFelix
 		void Update()
 		{
 			CheckIfClimbing();
-			Move();
+			HandleMovement();
 		}
 		void LateUpdate() => FinalMove();
 
-		void CheckIfClimbing()
-		{
-			if (!cc.isGrounded)
-				isClimbing = bd.isClimbing;
-			else
-				isClimbing = false;
-		}
+		void CheckIfClimbing() => isClimbing = bd.isClimbing;
 
 		/// <summary>
 		/// Climb, dash/jump, fall
 		/// </summary>
-		void Move()
+		void HandleMovement()
 		{
 			var speedTotal = maxSpeed;
-			dash = input.Gameplay.Dash.triggered;
+			var dash = input.Gameplay.Dash.triggered;
 
 			//Calculate dash boost
 			if (isDashing)
