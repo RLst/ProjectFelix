@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WallBehaviour : MonoBehaviour
 {
-    public BrickBehaviour[] brickPrefabs;
+    public BrickBehaviour brickPrefab;
+    public Mesh[] brickMeshes;
 
     public BrickBehaviour[,] brickPositions;
     
@@ -57,9 +58,11 @@ public class WallBehaviour : MonoBehaviour
 
     public BrickBehaviour spawnBrick(Vector2 pos, Vector2 arrayCoords) {
         int prefabN = Random.Range(0, 3);
-        BrickBehaviour brick = Instantiate(brickPrefabs[prefabN], new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
+        BrickBehaviour brick = Instantiate(brickPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
         brick.wallPos = arrayCoords;
         brick.wall = this;
+
+        brick.GetComponentInChildren<MeshFilter>().mesh = brickMeshes[Random.Range(0, brickMeshes.Length)];
 
         brickPositions[(int)arrayCoords[0],(int)arrayCoords[1]] = brick;
 

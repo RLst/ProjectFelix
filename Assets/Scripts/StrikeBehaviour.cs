@@ -6,6 +6,13 @@ public class StrikeBehaviour : MonoBehaviour
 {
     float timer = 3;
 
+    GiantBehaviour parentBehaviour;
+
+    private void Awake()
+    {
+        parentBehaviour = transform.parent.GetComponent<GiantBehaviour>();
+    }
+
     void Start()
     {
         
@@ -19,13 +26,19 @@ public class StrikeBehaviour : MonoBehaviour
 
             transform.localScale = new Vector3(timer/3, timer/3, timer/3);
             if (timer <= 0) {
-                Vector3 fistPos = new Vector3(transform.position[0], transform.position[1], 1);
-                float fistRad = 1f;
-
-                foreach(BrickBehaviour brick in transform.parent.GetComponent<GiantBehaviour>().wall.getBricksInRadius(transform.position, 1)) {
-                    brick.removeBrick(fistPos, fistRad);
-                };
+                strike();
             }
         }
+    }
+
+    void strike() {
+        Vector3 fistPos = new Vector3(transform.position[0], transform.position[1], 1);
+        float fistRad = 1f;
+
+        foreach(BrickBehaviour brick in parentBehaviour.wall.getBricksInRadius(transform.position, 1)) {
+            brick.removeBrick(fistPos, fistRad);
+        };
+
+        parentBehaviour.fist.strike(fistPos + new Vector3(0, 0, -0.7f));
     }
 }

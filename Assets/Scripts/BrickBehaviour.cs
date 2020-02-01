@@ -5,8 +5,11 @@ using UnityEngine;
 public class BrickBehaviour : MonoBehaviour
 {
     Rigidbody rigidbody;
+
     public Vector2 wallPos;
     public WallBehaviour wall;
+
+    public ParticleSystem cloudParticlePrefab;
 
     public Material inWallMaterial;
     public Material outWallMaterial;
@@ -39,6 +42,15 @@ public class BrickBehaviour : MonoBehaviour
     {
         if (removed) {
             
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        ContactPoint contact = collision.contacts[0];
+        
+        if (collision.impulse.magnitude > 20) {
+            Instantiate(cloudParticlePrefab, contact.point, Quaternion.identity);
         }
     }
 }

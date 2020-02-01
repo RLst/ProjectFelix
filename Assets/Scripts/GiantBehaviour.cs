@@ -7,6 +7,7 @@ public class GiantBehaviour : MonoBehaviour
     public WallBehaviour wall;
 
     public StrikeBehaviour strikePrefab;
+    public FistBehaviour fist;
 
     float timer = 0;
     float maxTime = 4;
