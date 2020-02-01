@@ -39,6 +39,6 @@ public class StrikeBehaviour : MonoBehaviour
             brick.removeBrick(fistPos, fistRad);
         };
 
-        parentBehaviour.fist.strike(fistPos + new Vector3(0, 0, -0.7f));
+        parentBehaviour.fist.strike(fistPos + new Vector3(0, 0, 0.6f));
     }
 }

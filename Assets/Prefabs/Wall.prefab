@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brickPrefab: {fileID: 1717581973089997893, guid: fc7bd90c8918ff14da7e199c0543ef0f,
     type: 3}
+  brickColliderPrefab: {fileID: 6078800862897628061, guid: 38f3772fd29dd51459e29881cfe220f2,
+    type: 3}
   brickMeshes:
   - {fileID: -5113749000354520860, guid: b94fee1ef7465bd44852328d4b249811, type: 3}
   - {fileID: -2798994008485536547, guid: 9624892b09b83cd4db25b9a8d91f4682, type: 3}

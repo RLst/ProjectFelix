@@ -5,9 +5,11 @@ using UnityEngine;
 public class WallBehaviour : MonoBehaviour
 {
     public BrickBehaviour brickPrefab;
+    public Collider brickColliderPrefab;
     public Mesh[] brickMeshes;
 
     public BrickBehaviour[,] brickPositions;
+    public Collider[,] brickColliderPositions;
     
     [SerializeField]float nBricks = 0;
 
@@ -20,6 +22,7 @@ public class WallBehaviour : MonoBehaviour
     void Start()
     {
         brickPositions = new BrickBehaviour[nBricksWide, nBricksTall];
+        brickColliderPositions = new Collider[nBricksWide, nBricksTall];
         
         generateWall();
 
@@ -59,6 +62,12 @@ public class WallBehaviour : MonoBehaviour
     public BrickBehaviour spawnBrick(Vector2 pos, Vector2 arrayCoords) {
         int prefabN = Random.Range(0, 3);
         BrickBehaviour brick = Instantiate(brickPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
+        
+        Collider brickCollider = Instantiate(brickColliderPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
+
+        brickColliderPositions[(int)arrayCoords[0],(int)arrayCoords[1]] = brickCollider;
+        brickCollider.enabled = false;
+
         brick.wallPos = arrayCoords;
         brick.wall = this;
 
@@ -122,6 +131,15 @@ public class WallBehaviour : MonoBehaviour
     public void removeBrick(Vector2 brickCoords) {
         brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = null;
         nBricks = nBricks - 1;
+
+        brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = true;
+    }
+
+    public void insertBrick(Vector2 brickCoords, BrickBehaviour brick) {
+        if (brickPositions[(int)brickCoords[0], (int)brickCoords[1]] != null) {
+            brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = brick;
+            brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = false;
+        }
     }
 
     // Update is called once per frame
