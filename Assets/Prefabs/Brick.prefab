@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7753324470408013662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e284a6f545109de489e26bc2079f7e78, type: 3}
+  m_Script: {fileID: 11500000, guid: 5085b565eb6def84498733a70d570f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wallPos: {x: 0, y: 0}
@@ -88,11 +88,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 153294592872964836}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: b94fee1ef7465bd44852328d4b249811,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_Brick1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b94fee1ef7465bd44852328d4b249811,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -162,6 +157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b94fee1ef7465bd44852328d4b249811,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Brick1
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: b94fee1ef7465bd44852328d4b249811,
         type: 3}

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickBehaviour : MonoBehaviour
+public class Brick : MonoBehaviour
 {
     Rigidbody rigidbody;
 
     public Vector2 wallPos;
-    public WallBehaviour wall;
+    internal Wall wall;
 
     public ParticleSystem cloudParticlePrefab;
 
