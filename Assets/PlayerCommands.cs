@@ -42,7 +42,7 @@ namespace ProjectFelix
                     ""id"": ""0e080c98-a3fa-46ec-b123-931157d3f1c1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Hold(duration=1)""
                 },
                 {
                     ""name"": ""Dash"",

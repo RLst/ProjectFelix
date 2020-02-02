@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 namespace ProjectFelix
 {
@@ -23,6 +24,11 @@ namespace ProjectFelix
 		[SerializeField] ForceMode throwForceMode = ForceMode.Force;
 		float lastThrowTime;
 
+		[Header("Events")]
+		public UnityEvent onPickup = null;
+		public UnityEvent onThrow = null;
+		public UnityEvent onLayBrick = null;
+
 		//Members
 		PlayerMover mover;
 		PlayerInputActions input;
@@ -35,18 +41,13 @@ namespace ProjectFelix
 			input = new PlayerInputActions();
 			mover = GetComponent<PlayerMover>();
 		}
-		void Start()
+		void OnEnable()
 		{
+			input.Gameplay.Enable();
 			input.Gameplay.Use.started += PickupBrick;
 			input.Gameplay.Use.performed += ThrowBrick;
 		}
-		void OnEnable() => input.Gameplay.Enable();
 		void OnDisable() => input.Gameplay.Disable();
-
-		void Update()
-		{
-		}
-
 
 		/// <summary>
 		/// Pickup or catch a brick
@@ -54,6 +55,8 @@ namespace ProjectFelix
 		/// <param name="ctx"></param>
 		void PickupBrick(InputAction.CallbackContext ctx)
 		{
+			print("pickup");
+
 			//Check if dropped brick detected
 			var hits =
 				(Physics.OverlapBox(
@@ -86,10 +89,10 @@ namespace ProjectFelix
 			}
 		}
 
-
-
 		void ThrowBrick(InputAction.CallbackContext ctx)
 		{
+			print("throw");
+
 			///If there are bricks in the back pack then throw brick in movement direction
 			//Always resume movement
 			mover.enabled = true;
@@ -98,20 +101,24 @@ namespace ProjectFelix
 			if (brickBackPack.Count == 0) return;
 
 			//Throw with timed delay and based on charge time
-			var direction = (input.Gameplay.Move.ReadValue<Vector2>()).normalized;
-			var dir3 = new Vector3(direction.x, direction.y, 0);
-			//if (Vector2.SignedAngle(Vector2.up, direction) > maxThrowAngle)
+			//Aim too small to fire just shoot up
+			var aim = Vector3.Normalize(input.Gameplay.Move.ReadValue<Vector2>());
+			if (Mathf.Approximately(Vector3.SqrMagnitude(aim), 0)) aim = Vector3.up;
+
+			//Limit rate of fire
+			if (Time.time - lastThrowTime < maxThrowRate) return;	
+			lastThrowTime = Time.time;
+
+			//Can finally throw
 			var brick = brickBackPack.Dequeue();
 			brick.gameObject.SetActive(true);
-			brick.transform.position = transform.position + dir3 * armsLength;
-			brick.rigidbody.AddForce(dir3 * maxThrowForce, throwForceMode);
-
-			//
-
+			brick.transform.position = transform.position + Vector3.up * armsLength + aim * armsLength;
+			brick.rigidbody.AddForce(aim * maxThrowForce, throwForceMode);
 		}
 
 		void LayBrick(InputAction.CallbackContext ctx)
 		{
+			//Check if a brick is available in backpack
 
 		}
 

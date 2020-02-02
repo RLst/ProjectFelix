@@ -6,6 +6,7 @@ namespace ProjectFelix
 	{
 		///Inspector
 		[Header("Move")]
+		[SerializeField] Animator anim = null;
 		[SerializeField] float maxSpeed = 5f;
 		[SerializeField] float smoothing = 0.5f;
 
@@ -87,6 +88,10 @@ namespace ProjectFelix
 
 			//Final
 			currentMoveVector = Vector3.Lerp(currentMoveVector, destMoveVector, smoothing);
+
+			//Animations
+			anim?.SetFloat("xMovement", currentMoveVector.x);
+			anim?.SetFloat("yMovement", currentMoveVector.y);
 		}
 
 		void FinalMove() => cc.Move(currentMoveVector * Time.deltaTime);
