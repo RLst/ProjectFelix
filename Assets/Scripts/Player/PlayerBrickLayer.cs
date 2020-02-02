@@ -86,11 +86,14 @@ namespace ProjectFelix
 					{
 						brickBackPack.Enqueue(closestBrick);
 						closestBrick.gameObject.SetActive(false);
+						
+						onPickup.Invoke();
 					}
 				}
 			} else {
 				LayBrick();
 			}
+
 		}
 
 		void PrepareThrow(InputAction.CallbackContext ctx)
@@ -128,6 +131,8 @@ namespace ProjectFelix
 			brick.gameObject.SetActive(true);
 			brick.transform.position = transform.position + Vector3.up * armsLength + aim * armsLength;
 			brick.rigidbody.AddForce(aim * maxThrowForce, throwForceMode);
+
+			onThrow.Invoke();
 		}
 
 		void LayBrick()
@@ -143,6 +148,8 @@ namespace ProjectFelix
 				//brick.transform.SetParent(transform);
 				print("lay for real");
 			}
+
+			onLayBrick.Invoke();
 		}
 
 		#region Debug

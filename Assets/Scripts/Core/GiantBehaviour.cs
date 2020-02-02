@@ -11,17 +11,10 @@ public class GiantBehaviour : MonoBehaviour
     public Transform giantTransform;
 
     float timer = 0;
-    float maxTime = 4;
+    public float maxTime = 6;
 
     float targetRotate = 0;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (!Wall.current.wallCollapsed && !Wall.current.won) {

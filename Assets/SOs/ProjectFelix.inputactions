@@ -140,6 +140,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9a4c032c-8319-4357-aa4e-de18163364bf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9ac41639-b0cc-4459-a7bb-a8cef3ce0469",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",

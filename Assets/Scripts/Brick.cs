@@ -21,10 +21,13 @@ public class Brick : MonoBehaviour
 
 	internal new Rigidbody rigidbody;
 
+	RandomSoundPlayer rsp;
+
 	private void Awake()
 	{
 		rigidbody = GetComponent<Rigidbody>();
 		rigidbody.isKinematic = true;
+		rsp = GetComponent<RandomSoundPlayer>();
 		rocky = 0;
 	}
 
@@ -69,6 +72,8 @@ public class Brick : MonoBehaviour
 	private void OnCollisionEnter(Collision collision)
 	{
 		ContactPoint contact = collision.contacts[0];
+
+		rsp.PlayRandom();
 
 		if (collision.impulse.magnitude > 20)
 		{
