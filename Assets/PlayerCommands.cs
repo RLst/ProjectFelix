@@ -29,14 +29,6 @@ namespace ProjectFelix
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Aim"",
-                    ""type"": ""Value"",
-                    ""id"": ""672d7f49-acf7-4c53-86a4-d2a443d5ef12"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""0e080c98-a3fa-46ec-b123-931157d3f1c1"",
@@ -130,17 +122,6 @@ namespace ProjectFelix
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -182,61 +163,6 @@ namespace ProjectFelix
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Arrow Keys"",
-                    ""id"": ""a0459680-c42e-4a05-acbb-ac80100d61d4"",
-                    ""path"": ""Dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""ca0f29e0-d9d1-4f88-968e-f59586247c95"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""66d201ae-b196-48b1-b9a3-d06086d08193"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""9adc4159-e330-41ae-85a4-cc70eb8fd0dc"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""3640a0a8-e550-4933-b253-240f50f29aa2"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -832,7 +758,6 @@ namespace ProjectFelix
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-            m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
             m_Gameplay_Use = m_Gameplay.FindAction("Use", throwIfNotFound: true);
             m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
             m_Gameplay_Toss = m_Gameplay.FindAction("Toss", throwIfNotFound: true);
@@ -899,7 +824,6 @@ namespace ProjectFelix
         private readonly InputActionMap m_Gameplay;
         private IGameplayActions m_GameplayActionsCallbackInterface;
         private readonly InputAction m_Gameplay_Move;
-        private readonly InputAction m_Gameplay_Aim;
         private readonly InputAction m_Gameplay_Use;
         private readonly InputAction m_Gameplay_Dash;
         private readonly InputAction m_Gameplay_Toss;
@@ -908,7 +832,6 @@ namespace ProjectFelix
             private @PlayerCommands m_Wrapper;
             public GameplayActions(@PlayerCommands wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-            public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
             public InputAction @Use => m_Wrapper.m_Gameplay_Use;
             public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
             public InputAction @Toss => m_Wrapper.m_Gameplay_Toss;
@@ -924,9 +847,6 @@ namespace ProjectFelix
                     @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                     @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                     @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                    @Aim.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
-                    @Aim.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
-                    @Aim.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
                     @Use.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
                     @Use.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
                     @Use.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
@@ -943,9 +863,6 @@ namespace ProjectFelix
                     @Move.started += instance.OnMove;
                     @Move.performed += instance.OnMove;
                     @Move.canceled += instance.OnMove;
-                    @Aim.started += instance.OnAim;
-                    @Aim.performed += instance.OnAim;
-                    @Aim.canceled += instance.OnAim;
                     @Use.started += instance.OnUse;
                     @Use.performed += instance.OnUse;
                     @Use.canceled += instance.OnUse;
@@ -1120,7 +1037,6 @@ namespace ProjectFelix
         public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
-            void OnAim(InputAction.CallbackContext context);
             void OnUse(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
             void OnToss(InputAction.CallbackContext context);
