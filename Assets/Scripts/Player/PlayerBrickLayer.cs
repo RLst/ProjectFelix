@@ -55,7 +55,7 @@ namespace ProjectFelix
 		/// <param name="ctx"></param>
 		void PickupBrick(InputAction.CallbackContext ctx)
 		{
-			print("pickup");
+			//print("pickup");
 
 			//Check if dropped brick detected
 			var hits =
@@ -91,7 +91,7 @@ namespace ProjectFelix
 
 		void ThrowBrick(InputAction.CallbackContext ctx)
 		{
-			print("throw");
+			//print("throw");
 
 			///If there are bricks in the back pack then throw brick in movement direction
 			//Always resume movement
