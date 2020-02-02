@@ -68,10 +68,10 @@ public class Wall : MonoBehaviour
         int prefabN = Random.Range(0, 3);
         Brick brick = Instantiate(brickPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
         
-        Collider brickCollider = Instantiate(brickColliderPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
+        //Collider brickCollider = Instantiate(brickColliderPrefab, new Vector3(transform.position[0] + pos[0], transform.position[1] + pos[1], transform.position[2]), Quaternion.identity, transform);
 
-        brickColliderPositions[(int)arrayCoords[0],(int)arrayCoords[1]] = brickCollider;
-        brickCollider.enabled = false;
+        //brickColliderPositions[(int)arrayCoords[0],(int)arrayCoords[1]] = brickCollider;
+        //brickCollider.enabled = false;
 
         brick.wallPos = arrayCoords;
         brick.wall = this;
@@ -141,7 +141,7 @@ public class Wall : MonoBehaviour
         brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = null;
         nBricks = nBricks - 1;
 
-        brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = true;
+        //brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = true;
     }
 
     public void insertBrick(Vector2 brickCoords, Brick brick) {
