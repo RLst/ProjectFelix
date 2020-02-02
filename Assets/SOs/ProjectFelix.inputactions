@@ -30,12 +30,12 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "Toss",
+                    "name": "Throw",
                     "type": "Button",
-                    "id": "f79de08d-394a-40db-8458-c816ce0282f0",
+                    "id": "3fd40dbb-eb62-445f-b1ee-ef467b3f7147",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -108,21 +108,10 @@
                 {
                     "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Use",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "05f6913d-c316-48b2-a6bb-e225f14c7960",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
                     "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -151,23 +140,23 @@
                 },
                 {
                     "name": "",
-                    "id": "a376ab92-b9fe-4d80-855d-61ca89c81446",
-                    "path": "<Keyboard>/j",
+                    "id": "9ac41639-b0cc-4459-a7bb-a8cef3ce0469",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Toss",
+                    "groups": "Gamepad",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0ff35971-1d07-4f6e-b702-fa1b3fc80d8e",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "e2e4fdfe-6829-4b78-b23a-62ba277f5e42",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Toss",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

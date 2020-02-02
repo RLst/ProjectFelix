@@ -8,10 +8,10 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace ProjectFelix
 {
-    public class @PlayerCommands : IInputActionCollection, IDisposable
+    public class @PlayerInputActions : IInputActionCollection, IDisposable
     {
         public InputActionAsset asset { get; }
-        public @PlayerCommands()
+        public @PlayerInputActions()
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""ProjectFelix"",
@@ -45,12 +45,12 @@ namespace ProjectFelix
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""Toss"",
+                    ""name"": ""Throw"",
                     ""type"": ""Button"",
-                    ""id"": ""f79de08d-394a-40db-8458-c816ce0282f0"",
+                    ""id"": ""3fd40dbb-eb62-445f-b1ee-ef467b3f7147"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -123,21 +123,10 @@ namespace ProjectFelix
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Use"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -166,23 +155,23 @@ namespace ProjectFelix
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a376ab92-b9fe-4d80-855d-61ca89c81446"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""id"": ""9ac41639-b0cc-4459-a7bb-a8cef3ce0469"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Toss"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0ff35971-1d07-4f6e-b702-fa1b3fc80d8e"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""e2e4fdfe-6829-4b78-b23a-62ba277f5e42"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Toss"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -760,7 +749,7 @@ namespace ProjectFelix
             m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
             m_Gameplay_Use = m_Gameplay.FindAction("Use", throwIfNotFound: true);
             m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
-            m_Gameplay_Toss = m_Gameplay.FindAction("Toss", throwIfNotFound: true);
+            m_Gameplay_Throw = m_Gameplay.FindAction("Throw", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -826,15 +815,15 @@ namespace ProjectFelix
         private readonly InputAction m_Gameplay_Move;
         private readonly InputAction m_Gameplay_Use;
         private readonly InputAction m_Gameplay_Dash;
-        private readonly InputAction m_Gameplay_Toss;
+        private readonly InputAction m_Gameplay_Throw;
         public struct GameplayActions
         {
-            private @PlayerCommands m_Wrapper;
-            public GameplayActions(@PlayerCommands wrapper) { m_Wrapper = wrapper; }
+            private @PlayerInputActions m_Wrapper;
+            public GameplayActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Gameplay_Move;
             public InputAction @Use => m_Wrapper.m_Gameplay_Use;
             public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
-            public InputAction @Toss => m_Wrapper.m_Gameplay_Toss;
+            public InputAction @Throw => m_Wrapper.m_Gameplay_Throw;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -853,9 +842,9 @@ namespace ProjectFelix
                     @Dash.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
                     @Dash.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
                     @Dash.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
-                    @Toss.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToss;
-                    @Toss.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToss;
-                    @Toss.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToss;
+                    @Throw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                    @Throw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                    @Throw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
                 }
                 m_Wrapper.m_GameplayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -869,9 +858,9 @@ namespace ProjectFelix
                     @Dash.started += instance.OnDash;
                     @Dash.performed += instance.OnDash;
                     @Dash.canceled += instance.OnDash;
-                    @Toss.started += instance.OnToss;
-                    @Toss.performed += instance.OnToss;
-                    @Toss.canceled += instance.OnToss;
+                    @Throw.started += instance.OnThrow;
+                    @Throw.performed += instance.OnThrow;
+                    @Throw.canceled += instance.OnThrow;
                 }
             }
         }
@@ -893,8 +882,8 @@ namespace ProjectFelix
         private readonly InputAction m_UI_TrackedDeviceSelect;
         public struct UIActions
         {
-            private @PlayerCommands m_Wrapper;
-            public UIActions(@PlayerCommands wrapper) { m_Wrapper = wrapper; }
+            private @PlayerInputActions m_Wrapper;
+            public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
@@ -1039,7 +1028,7 @@ namespace ProjectFelix
             void OnMove(InputAction.CallbackContext context);
             void OnUse(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
-            void OnToss(InputAction.CallbackContext context);
+            void OnThrow(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

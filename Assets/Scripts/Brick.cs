@@ -25,11 +25,12 @@ public class Brick : MonoBehaviour
 	{
 		rigidbody = GetComponent<Rigidbody>();
 		rigidbody.isKinematic = true;
+		rocky = 0;
 	}
 
 	public void removeBrick()
 	{
-		removeBrick(transform.position + new Vector3(0, 0, 1), 5);
+		removeBrick(transform.position + new Vector3(0, 0, 1), 0);
 	}
 	public void removeBrick(Vector3 fistPos, float fistSize)
 	{
@@ -44,16 +45,24 @@ public class Brick : MonoBehaviour
 		GetComponentInChildren<MeshRenderer>().material = outWallMaterial;
 	}
 
+	public void reInsertBrick() {
+		rigidbody.isKinematic = true;
+		removed = false;
+		GetComponentInChildren<MeshRenderer>().material = inWallMaterial;
+	}
+
 	// Update is called once per frame
 	void Update()
 	{
-		if (rocky == 1)
-		{
-			brickModel.localPosition = new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), 0);
-		}
-		else if (rocky == 2)
-		{
-			brickModel.localPosition = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
+		if (!removed) {
+			if (rocky == 1)
+			{
+				brickModel.localPosition = new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), 0);
+			}
+			else if (rocky == 2)
+			{
+				brickModel.localPosition = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
+			}
 		}
 	}
 

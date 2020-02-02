@@ -24,7 +24,14 @@ public class GiantBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer = timer - Time.deltaTime;
+        if (!Wall.current.wallCollapsed && !Wall.current.won) {
+            timer = timer - Time.deltaTime;
+        }
+
+        if (Wall.current.won) {
+            giantTransform.position = new Vector3(giantTransform.position[0], giantTransform.position[1], giantTransform.position[2] + Time.deltaTime*10);
+        }
+
         if (timer <= 0) {
             timer = maxTime;
             
@@ -60,7 +67,9 @@ public class GiantBehaviour : MonoBehaviour
 
     void spawnStrike() {
         bool posFound = false;
+        int count = 0;
         while (!posFound) {
+            count = count + 1;
             Vector2 pos = new Vector2(wall.transform.position[0] + Random.Range(-wall.nBricksWide*wall.brickWidth/2 + 2, wall.nBricksWide*wall.brickWidth/2 - 2), wall.transform.position[1] + Random.Range(2, wall.nBricksWide*wall.brickHeight));
 
             targetRotate = -45*(pos[0]/(wall.nBricksWide*wall.brickWidth/2));
@@ -72,6 +81,10 @@ public class GiantBehaviour : MonoBehaviour
                 StrikeBehaviour strike = Instantiate(strikePrefab, new Vector3(pos[0], pos[1], -0.5f), Quaternion.identity, transform);
             } else {
                 print("No brick found");
+            }
+
+            if (count >= 10) {
+                break;
             }
         }
     }

@@ -18,6 +18,19 @@ public class Wall : MonoBehaviour
 
     public int nBricksTall = 20;
     public int nBricksWide = 18;
+
+    public static Wall current = null;
+
+    public bool wallCollapsed = false;
+    public bool won = false;
+
+    private void Awake()
+    {
+        if (current == null) {
+            current= this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +71,7 @@ public class Wall : MonoBehaviour
                 if (i >= 0 && i < nBricksTall && j >= 0 && j < nBricksWide) {
                     spawnBrick(new Vector2(xPos, yPos), new Vector2(j, i));
                 } else {
-                    spawnBorder(new Vector2(xPos, yPos));
+                    //spawnBorder(new Vector2(xPos, yPos));
                 }
             }
         }
@@ -120,6 +133,16 @@ public class Wall : MonoBehaviour
             return null;
         }
     }
+
+    public Vector2 getPosAtBrickCoords(Vector2 brickCoords) {
+        float x = brickWidth*(brickCoords[0] - nBricksWide/2) + brickWidth/2;
+        float y = brickHeight*brickCoords[1] + brickHeight/2;
+        if (brickCoords[1]%2 == 1) {
+            x = x + 0.5f;
+        }
+
+        return new Vector2(x, y);
+    }
     
     public List<Brick> getBricksInRadius(Vector2 pos, float radius) {
         List<Brick> bricks = new List<Brick>();
@@ -141,13 +164,92 @@ public class Wall : MonoBehaviour
         brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = null;
         nBricks = nBricks - 1;
 
+        checkStability();
         //brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = true;
     }
 
     public void insertBrick(Vector2 brickCoords, Brick brick) {
-        if (brickPositions[(int)brickCoords[0], (int)brickCoords[1]] != null) {
+        if (brickPositions[(int)brickCoords[0], (int)brickCoords[1]] == null) {
             brickPositions[(int)brickCoords[0], (int)brickCoords[1]] = brick;
-            brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = false;
+
+            Vector2 worldCoords = getPosAtBrickCoords(brickCoords);
+
+            brick.transform.position = new Vector3(worldCoords[0], worldCoords[1], transform.position[2]);
+            brick.transform.rotation = Quaternion.identity;
+
+            brick.transform.SetParent(null);
+
+            brick.reInsertBrick();
+            //brickColliderPositions[(int)brickCoords[0], (int)brickCoords[1]].enabled = false;
+        }
+
+        nBricks = nBricks + 1;
+        checkStability();
+    }
+
+    public bool insertBrickAtClosest(Vector2 position, float armLength, Brick insertingBrick) {
+        bool brickFound = false;
+        Vector2 closestBrick = new Vector2(0, 0);
+        float closetBrickDist = -1;
+        
+        for (int j = 0; j < nBricksWide; j++) {
+            for (int i = 0; i < nBricksTall; i++) {
+                Brick brick = brickPositions[j,i];
+                if (brick == null) {
+                    Vector2 brickPos = getPosAtBrickCoords(new Vector2(j, i));
+
+                    Vector2 diff = brickPos - position;
+                    float dist = diff.magnitude;
+                    if (diff.magnitude <= armLength) {
+                        if (closetBrickDist == -1) {
+                            brickFound = true;
+                            closetBrickDist = dist;
+                            closestBrick = new Vector2(j, i);
+                        } else {
+                            if (closetBrickDist > dist) {
+                                brickFound = true;
+                                closetBrickDist = dist;
+                                closestBrick = new Vector2(j, i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (brickFound) {
+            insertBrick(closestBrick, insertingBrick);
+        }
+        return brickFound;
+    }
+
+    int currentRocky = 0;
+    void checkStability() {
+        int newRocky = currentRocky;
+        if (nBricks < 280) {
+            for (int j = 0; j < nBricksWide; j++) {
+                for (int i = 0; i < nBricksTall; i++) {
+                    Brick brick = brickPositions[j,i];
+                    if (brick != null) {
+                        brick.removeBrick();
+                    }
+                }
+            }
+            wallCollapsed = true;
+        } else if (nBricks < 290) {
+            newRocky = 2;
+        } else if (nBricks < 310) {
+            newRocky = 1;
+        }
+
+        if (newRocky != currentRocky) {
+            currentRocky = newRocky;
+
+            foreach (Transform brickT in transform) {
+                Brick brick = brickT.GetComponent<Brick>();
+
+                brick.rocky = newRocky;
+            }
         }
     }
 }

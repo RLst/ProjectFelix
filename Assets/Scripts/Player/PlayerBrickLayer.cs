@@ -45,7 +45,8 @@ namespace ProjectFelix
 		{
 			input.Gameplay.Enable();
 			input.Gameplay.Use.started += PickupBrick;
-			input.Gameplay.Use.performed += ThrowBrick;
+			input.Gameplay.Throw.started += PrepareThrow;
+			input.Gameplay.Throw.performed += ThrowBrick;
 		}
 		void OnDisable() => input.Gameplay.Disable();
 
@@ -57,35 +58,46 @@ namespace ProjectFelix
 		{
 			print("pickup");
 
-			//Check if dropped brick detected
-			var hits =
-				(Physics.OverlapBox(
-					brickDetector.position,
-						brickDetector.localScale * 0.5f,
-							brickDetector.rotation));
+			if (brickBackPack.Count == 0) {
+				//Check if dropped brick detected
+				var hits =
+					(Physics.OverlapBox(
+						brickDetector.position,
+							brickDetector.localScale * 0.5f,
+								brickDetector.rotation));
 
-			//Filter out dropped bricks
-			var hitBricks = hits.
-				Select(x => x.GetComponent<Brick>()).
-					Where(x => x != null && x.removed).
-						ToArray();
+				//Filter out dropped bricks
+				var hitBricks = hits.
+					Select(x => x.GetComponent<Brick>()).
+						Where(x => x != null && x.removed).
+							ToArray();
 
-			//Get the closest brick
-			var closestBrick = hitBricks.
-				OrderBy(x => Vector3.SqrMagnitude(x.transform.position - transform.position)).
-					FirstOrDefault();
+				//Get the closest brick
+				var closestBrick = hitBricks.
+					OrderBy(x => Vector3.SqrMagnitude(x.transform.position - transform.position)).
+						FirstOrDefault();
 
-			//Pause player movement if brick found in order to allow aim
-			mover.enabled = false;
-
-			//Load backpack if enough capacity
-			if (closestBrick)
-			{
-				if (brickBackPack.Count < backpackSize)
+				//Load backpack if enough capacity
+				if (closestBrick)
 				{
-					brickBackPack.Enqueue(closestBrick);
-					closestBrick.gameObject.SetActive(false);
+					if (brickBackPack.Count < backpackSize)
+					{
+						brickBackPack.Enqueue(closestBrick);
+						closestBrick.gameObject.SetActive(false);
+					}
 				}
+			} else {
+				LayBrick();
+			}
+		}
+
+		void PrepareThrow(InputAction.CallbackContext ctx)
+		{
+			print("prepare");	
+
+			if (brickBackPack.Count > 0) {
+				//Pause player movement if brick found in order to allow aim
+				mover.enabled = false;
 			}
 		}
 
@@ -116,10 +128,19 @@ namespace ProjectFelix
 			brick.rigidbody.AddForce(aim * maxThrowForce, throwForceMode);
 		}
 
-		void LayBrick(InputAction.CallbackContext ctx)
+		void LayBrick()
 		{
+			print("lay");
 			//Check if a brick is available in backpack
-
+			Brick brick = brickBackPack.Dequeue();
+			brick.gameObject.SetActive(true);
+			if (!Wall.current.insertBrickAtClosest(transform.position, armsLength, brick)) {
+				brickBackPack.Enqueue(brick);
+				brick.gameObject.SetActive(false);
+			} else {
+				//brick.transform.SetParent(transform);
+				print("lay for real");
+			}
 		}
 
 		#region Debug

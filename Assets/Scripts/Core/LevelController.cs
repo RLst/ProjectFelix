@@ -17,7 +17,13 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        levelTime = levelTime - Time.deltaTime;
+        if (!Wall.current.wallCollapsed) {
+            levelTime = levelTime - Time.deltaTime;
+        }
+
+        if (levelTime <= 0) {
+            Wall.current.won = true;
+        }
         
         resizeWinBar();
     }
