@@ -47,6 +47,8 @@ namespace ProjectFelix
 			input.Gameplay.Use.started += PickupBrick;
 			input.Gameplay.Throw.started += PrepareThrow;
 			input.Gameplay.Throw.performed += ThrowBrick;
+			//input.Gameplay.Use.performed += PickupBrick;
+			//input.Gameplay.Use.canceled += ThrowBrick;
 		}
 		void OnDisable() => input.Gameplay.Disable();
 
@@ -56,7 +58,7 @@ namespace ProjectFelix
 		/// <param name="ctx"></param>
 		void PickupBrick(InputAction.CallbackContext ctx)
 		{
-			print("pickup");
+			//print("pickup");
 
 			if (brickBackPack.Count == 0) {
 				//Check if dropped brick detected
@@ -103,7 +105,7 @@ namespace ProjectFelix
 
 		void ThrowBrick(InputAction.CallbackContext ctx)
 		{
-			print("throw");
+			//print("throw");
 
 			///If there are bricks in the back pack then throw brick in movement direction
 			//Always resume movement
