@@ -44,8 +44,8 @@ namespace ProjectFelix
 		void OnEnable()
 		{
 			input.Gameplay.Enable();
-			input.Gameplay.Use.started += PickupBrick;
-			input.Gameplay.Use.performed += ThrowBrick;
+			input.Gameplay.Use.performed += PickupBrick;
+			input.Gameplay.Use.canceled += ThrowBrick;
 		}
 		void OnDisable() => input.Gameplay.Disable();
 
